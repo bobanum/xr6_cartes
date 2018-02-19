@@ -1,7 +1,8 @@
 /*jslint browser:true*/
 function load() {
+	var jeu = document.getElementById("jeu");
 	ajusterCouleurs();
-	document.body.innerHTML += carteAlea();
+	jeu.innerHTML = carteAlea() + carteAlea() + carteAlea() + carteAlea();
 }
 
 /**
@@ -22,17 +23,49 @@ function ajusterCouleurs() {
  * @returns {string} Le code HTML de la balise représentant la carte.
  */
 function htmlCarte(carte) {
-	var resultat, adresse;
-	adresse = 'http://prof-tim.cstj.qc.ca/martinboudreau/images_cartes/';
-	adresse += 'idx/' + carte + '.png';
+	var resultat;
 	resultat = '';
-	resultat += '<img';
+	resultat += '<div';
 	resultat += ' class="carte"';
-	resultat += ' id="' + carte + '"';
-	resultat += ' src="' + adresse + '"';
-	resultat += ' alt="' + nomValeur(carte) + ' de ' + nomSorte(carte) + '"';
-	resultat += ' title="' + nomValeur(carte) + ' de ' + nomSorte(carte) + '"';
-	resultat += '/>';
+	resultat += ' id="carte-' + carte + '"';
+	resultat += ' style="background-position: ' + bgPosition(carte) + '; font-size: 14px;"';
+	resultat += ' title="' + titreCarte(carte) + '"';
+	resultat += ' onclick="alertCarte(' + carte + ')"';
+	resultat += '>';
+	resultat += '</div>';
+	return resultat;
+}
+
+/**
+ * Retourne le titre complet de la carte donnée (se retrouve dans le title de la carte)
+ * @param   {number} carte L'indice de la carte (de 0 à 51)
+ * @returns {string} Le titre. Ex.: "Le 2 de Pique"
+ */
+function titreCarte(carte) {
+	var resultat;
+	resultat = nomValeur(carte) + ' de ' + nomSorte(carte);
+	return resultat;
+}
+
+/**
+ * Affiche le titre complet de la carte donnée dans un alert
+ * @param   {number} carte L'indice de la carte (de 0 à 51)
+ * @returns void
+ */
+function alertCarte(carte) {
+	alert('Je suis "' + titreCarte(carte) + '"');
+}
+
+/**
+ * Retourne la valeur du background-position pour la carte donnée
+ * @param   {number} carte L'indice de la carte (de 0 à 51)
+ * @returns {string} La valeur CSS sous le format "-5em -14em"
+ */
+function bgPosition(carte) {
+	var resultat, posY, posX;
+	posY = getSorte(carte) * 7;
+	posX = getValeur(carte) * 5;
+	resultat = "-" + posX + "em -" + posY + "em";
 	return resultat;
 }
 
@@ -73,13 +106,13 @@ function nomSorte(carte) {
 			resultat = "Coeur";
 			break;
 		case 1:
-			resultat = "Carreaux";
+			resultat = "Trèfle";
 			break;
 		case 2:
-			resultat = "Pique";
+			resultat = "Carreaux";
 			break;
 		case 3:
-			resultat = "Trèfle";
+			resultat = "Pique";
 			break;
 		default:
 			resultat = "N/D";

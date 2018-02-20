@@ -1,8 +1,54 @@
 /*jslint browser:true*/
 function load() {
-	var jeu = document.getElementById("jeu");
+	var jeu, cartesCoeur, cartesTrefle, cartesCarreau, cartesPique, paquet;
+	jeu = document.getElementById("jeu");
 	ajusterCouleurs();
-	jeu.innerHTML = carteAlea() + carteAlea() + carteAlea() + carteAlea();
+
+	cartesCoeur = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+	cartesTrefle = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22];
+	cartesTrefle.push(23);
+	cartesTrefle.push(24, 25);
+
+	cartesCarreau = [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38];
+	cartesCarreau.unshift(26);
+
+	cartesPique = [39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, "Enlevez-moi avec pop"];
+	cartesPique.pop();
+	cartesPique.pop();
+
+	paquet = ["Enlevez-moi avec shift"];
+	paquet = paquet.concat(cartesCoeur, cartesTrefle, cartesCarreau, cartesPique);
+	paquet.shift();
+	//alert(paquet);
+
+	var carte, affichageCartes;
+	affichageCartes = '';
+	carte = pigerArray(paquet);
+	affichageCartes += htmlCarte(carte);
+	paquet.splice(carte,1);
+	carte = pigerArray(paquet);
+	affichageCartes += htmlCarte(carte);
+	paquet.splice(carte,1);
+	carte = pigerArray(paquet);
+	affichageCartes += htmlCarte(carte);
+	paquet.splice(carte,1);
+	carte = pigerArray(paquet);
+	affichageCartes += htmlCarte(carte);
+	paquet.splice(carte,1);
+	jeu.innerHTML = affichageCartes;
+}
+
+/**
+ * Retourne l'indice d'un élément aléatoire d'un tableau
+ * @param   {Array}  tableau Le tableau à traiter
+ * @returns {number} L'indice trouvé (entre 0 et length-1)
+ */
+function pigerArray(tableau) {
+	var resultat, nbElements;
+	nbElements = tableau.length;
+	resultat = Math.floor(Math.random() * nbElements);
+	return resultat;
 }
 
 /**
@@ -98,24 +144,19 @@ function getValeur(carte) {
  * @returns {string} Le nom de la sorte (Coeur, Carreaux, Pique ou Trèfle)
  */
 function nomSorte(carte) {
-	var resultat, idxSorte;
+	var resultat, idxSorte, sortes;
+	sortes = [
+		"Coeur",
+		"Trèfle",
+		"Carreaux",
+		"Pique",
+	];
 	// On récupère l'indice de la sorte (0-4)
 	idxSorte = getSorte(carte);
-	switch (idxSorte) {
-		case 0:
-			resultat = "Coeur";
-			break;
-		case 1:
-			resultat = "Trèfle";
-			break;
-		case 2:
-			resultat = "Carreaux";
-			break;
-		case 3:
-			resultat = "Pique";
-			break;
-		default:
-			resultat = "N/D";
+	if (sortes[idxSorte] === undefined) {
+		resultat = "N/D";
+	} else {
+		resultat = sortes[idxSorte];
 	}
 	return resultat;
 }
@@ -127,21 +168,28 @@ function nomSorte(carte) {
  * @returns {string} Le nom de la valeur (de L'As à Le Roi en passant par Le 7)
  */
 function nomValeur(carte) {
-	var resultat, idxValeur;
+	var resultat, idxValeur, valeurs;
+	valeurs = [
+		"As",
+		"Deux",
+		"Trois",
+		"Quatre",
+		"Cinq",
+		"Six",
+		"Sept",
+		"Huit",
+		"Neuf",
+		"Dix",
+		"Valet",
+		"Dame",
+		"Roi"
+	];
 	// On récupère l'indice de la valeur (0-12)
 	idxValeur = getValeur(carte);
-	if (idxValeur === 0) {
-		resultat = "L'As";
-	} else if (idxValeur > 0 && idxValeur <= 9) {
-		resultat = "Le " + (idxValeur + 1);
-	} else if (idxValeur == 10) {
-		resultat = "Le Valet";
-	} else if (idxValeur == 11) {
-		resultat = "La Dame";
-	} else if (idxValeur == 12) {
-		resultat = "Le Roi";
-	} else {
+	if (valeurs[idxValeur] === undefined) {
 		resultat = "N/D";
+	} else {
+		resultat = valeurs[idxValeur];
 	}
 	return resultat;
 }

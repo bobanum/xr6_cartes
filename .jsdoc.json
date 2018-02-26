@@ -20,6 +20,6 @@
         "encoding": "utf8",
         "private": true,
         "recurse": true,
-        "template": "C:/Users/bo_ba/node_modules/jsdoc/templates/jsdoc-template"
+        "template": "C:/Users/bo_ba/node_modules/jsdoc/templates/boxy"
     }
 }

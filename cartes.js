@@ -1,5 +1,16 @@
 /*jslint browser:true*/
-function load() {
+/**
+ * @file Contient toutes les fonctions permettant d'afficher des cartes.
+ * - Cette version utilise les tableaux pour stocker les cartes.
+ * - On n'utilise pas encore les boucles pour les parcourir
+ * - Dans cette version, une carte est un nombre entre 0 et 51 inclusivement.
+ * - Comme cette représentation ne permet pas de prévoir la valeur et la sorte directement, elle sera changée dans les versions subséquentes.
+ *
+ * @version 0.1
+ * @author Martin Boudreau
+ * @copyright 2018 Techniques d'Intégration multimédia - Cégep de Saint-Jérome
+ *
+ */function load() {
 	var jeu, cartesCoeur, cartesTrefle, cartesCarreau, cartesPique, paquet;
 	jeu = document.getElementById("jeu");
 	ajusterCouleurs();
